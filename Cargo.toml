@@ -1,0 +1,11 @@
+[package]
+name = "toyos"
+version = "0.1.0"
+edition = "2021"
+
+[workspace]
+members = ["toykernel"]
+
+[build-dependencies]
+toykernel = { path = "toykernel", artifact = "bin", target = "x86_64-unknown-none", version = "0.1.0" }
+bootloader = "0.11.9"

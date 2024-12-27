@@ -1,0 +1,19 @@
+[package]
+name = "toykernel"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bootloader_api = "0.11.9"
+spin = "0.9.8"
+uart_16550 = "0.3.2"
+
+[dependencies.lazy_static]
+version = "1.5.0"
+features = ["spin_no_std"]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
