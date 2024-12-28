@@ -20,8 +20,15 @@ fn kernel_main(_boot_info: &'static mut bootloader_api::BootInfo) -> ! {
 
     interrupts::init_idt();
 
+    // invoke panic handler.
+    //assert_ne!(1, 1);
     // invoke a breakpoint exception
-    x86_64::instructions::interrupts::int3();
+    //x86_64::instructions::interrupts::int3();
+
+    // trigger a page fault
+    unsafe {
+        *(0xdeadbeef as *mut u8) = 42;
+    };
 
     loop {}
 }
