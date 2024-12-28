@@ -2,6 +2,7 @@
 #![no_main]
 #![feature(abi_x86_interrupt)]
 
+mod gdt;
 mod interrupts;
 mod serial;
 
@@ -18,6 +19,7 @@ bootloader_api::entry_point!(kernel_main);
 fn kernel_main(_boot_info: &'static mut bootloader_api::BootInfo) -> ! {
     serial_println!("Hello World");
 
+    gdt::init();
     interrupts::init_idt();
 
     // invoke panic handler.
@@ -26,9 +28,15 @@ fn kernel_main(_boot_info: &'static mut bootloader_api::BootInfo) -> ! {
     //x86_64::instructions::interrupts::int3();
 
     // trigger a page fault
-    unsafe {
+    /*unsafe {
         *(0xdeadbeef as *mut u8) = 42;
-    };
+    };*/
+
+    // trigger a stack overflow.
+    /*fn stack_overflow() {
+        stack_overflow();
+    }
+    stack_overflow();*/
 
     loop {}
 }
