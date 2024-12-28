@@ -1,6 +1,8 @@
 #![no_std]
 #![no_main]
+#![feature(abi_x86_interrupt)]
 
+mod interrupts;
 mod serial;
 
 use core::panic::PanicInfo;
@@ -15,6 +17,11 @@ bootloader_api::entry_point!(kernel_main);
 
 fn kernel_main(_boot_info: &'static mut bootloader_api::BootInfo) -> ! {
     serial_println!("Hello World");
-    // assert_ne!(1, 1);
+
+    interrupts::init_idt();
+
+    // invoke a breakpoint exception
+    x86_64::instructions::interrupts::int3();
+
     loop {}
 }
